@@ -9,7 +9,7 @@
         <li><a href="#">Toyota Avanza</a></li>
         <li><a href="#">Honda Brio</a></li>
         <li><a href="#">Daihatsu Xenia</a></li>
-        <li><a href="#">Mercedez Benz E300></li>
+        <li><a href="#">Mercedez Benz E300</li>
     </ul>
 </div>
 @endsection

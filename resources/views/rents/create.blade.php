@@ -1,6 +1,6 @@
 <!-- resources/views/rents/create.blade.php -->
 
-@extends('layouts.app') <!-- Ganti jika layout kamu pakai nama lain -->
+@extends('layouts.app') 
 
 @section('content')
 <div class="container">
