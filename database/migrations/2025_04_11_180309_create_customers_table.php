@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('no_hp');
-            $table->string('nik');
+            $table->string('kode_registrasi')->unique();
             $table->timestamps();
         });
     }

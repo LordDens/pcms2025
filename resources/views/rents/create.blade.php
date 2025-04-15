@@ -1,68 +1,48 @@
-<!-- resources/views/rents/create.blade.php -->
-
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <h1>Tambah Data Sewa</h1>
-
+    
     <form action="{{ route('rents.store') }}" method="POST">
         @csrf
 
-        <div>
-            <label>Customer ID:</label>
-            <input type="number" name="customer_id" required>
-        </div>
-
-        <div>
-            <label>Car ID:</label>
-            <input type="number" name="car_id" required>
-        </div>
-
-        <div>
-            <label>Kode Transaksi:</label>
-            <input type="text" name="kode_transaksi" required>
-        </div>
-
-        <div>
-            <label>Tanggal Pinjam:</label>
-            <input type="date" name="tanggal_pinjam" required>
-        </div>
-
-        <div>
-            <label>Tanggal Kembali:</label>
-            <input type="date" name="tanggal_kembali" required>
-        </div>
-
-        <div>
-            <label>Lama Sewa (hari):</label>
-            <input type="number" name="lama_sewa" required>
-        </div>
-
-        <div>
-            <label>Sopir:</label>
-            <select name="sopir">
-                <option value="ya">Dengan Sopir</option>
-                <option value="tidak">Tanpa Sopir</option>
+        <div class="mb-3">
+            <label for="customer_id" class="form-label">Pelanggan</label>
+            <select name="customer_id" id="customer_id" class="form-control" required>
+                <option value="">-- Pilih Pelanggan --</option>
+                @foreach ($customers as $customer)
+                    <option value="{{ $customer->id }}">{{ $customer->nama }}</option>
+                @endforeach
             </select>
         </div>
 
-        <div>
-            <label>Biaya:</label>
-            <input type="number" name="biaya" required>
+        <div class="mb-3">
+            <label for="car_id" class="form-label">Mobil</label>
+            <select name="car_id" id="car_id" class="form-control" required>
+                <option value="">-- Pilih Mobil --</option>
+                @foreach ($cars as $car)
+                    <option value="{{ $car->id }}">{{ $car->nama_mobil }}</option>
+                @endforeach
+            </select>
         </div>
 
-        <div>
-            <label>DP:</label>
-            <input type="number" name="dp">
+        <div class="mb-3">
+            <label for="tanggal_sewa" class="form-label">Tanggal Sewa</label>
+            <input type="date" name="tanggal_sewa" id="tanggal_sewa" class="form-control" required>
         </div>
 
-        <div>
-            <label>Belum Terbayar:</label>
-            <input type="number" name="belum_terbayar">
+        <div class="mb-3">
+            <label for="tanggal_kembali" class="form-label">Tanggal Kembali</label>
+            <input type="date" name="tanggal_kembali" id="tanggal_kembali" class="form-control" required>
         </div>
 
-        <button type="submit">Simpan</button>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="with_driver" value="1" id="with_driver" class="form-check-input">
+            <label class="form-check-label" for="with_driver">Dengan Sopir</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
 @endsection

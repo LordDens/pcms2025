@@ -19,6 +19,11 @@ return new class extends Migration
             $table->date('tanggal_kembali');
             $table->decimal('harga_sewa', 10, 2);
             $table->boolean('with_driver')->default(false);
+            $table->string('driver')->nullable(); // 'YORDAN', 'TANPA SOPIR', etc
+            $table->decimal('diskon', 10, 2)->nullable();
+            $table->decimal('dp', 10, 2)->nullable();
+            $table->decimal('total_pendapatan', 10, 2)->nullable();
+            $table->decimal('belum_terbayar', 10, 2)->nullable();
             $table->timestamps();
         });
     }
