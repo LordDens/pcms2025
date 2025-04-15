@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DummyRentController;
+use App\Http\Controllers\RentController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route resource dummy
-Route::resource('rents', DummyRentController::class);
+Route::resource('rents', RentController::class);

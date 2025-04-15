@@ -12,7 +12,6 @@ class RentController extends Controller
     public function index()
     {
         $rents = Rent::with(['customer', 'car'])->get();
-        dd($rents[0]);
         return view('rents.index', compact('rents'));
     }
 
