@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('kode_registrasi')->unique();
+            $table->string('no_hp');
+            $table->string('nik');
             $table->timestamps();
         });
     }

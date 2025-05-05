@@ -38,6 +38,7 @@
         </div>
 
         <div class="form-check mb-3">
+            <input type="hidden" name="with_driver" value="0">
             <input type="checkbox" name="with_driver" value="1" id="with_driver" class="form-check-input">
             <label class="form-check-label" for="with_driver">Dengan Sopir</label>
         </div>

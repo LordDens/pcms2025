@@ -12,6 +12,11 @@ class Rent extends Model
         'tanggal_kembali',
         'harga_sewa',
         'with_driver',
+        'driver',
+        'diskon',
+        'dp',
+        'total_pendapatan',
+        'belum_terbayar',
     ];
 
     public function customer()

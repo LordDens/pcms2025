@@ -10,11 +10,12 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-responsive">
         <thead>
             <tr>
                 <th>Pelanggan</th>
                 <th>Mobil</th>
+                <th>Jenis Mobil</th>
                 <th>Tanggal Sewa</th>
                 <th>Tanggal Kembali</th>
                 <th>Sopir</th>
@@ -26,6 +27,7 @@
             <tr>
                 <td>{{ $rent->customer->nama ?? 'N/A' }}</td>
                 <td>{{ $rent->car->nama_mobil ?? 'N/A' }}</td>
+                <td>{{ $rent->car->jenis_mobil ?? 'N/A' }}</td>
                 <td>{{ $rent->tanggal_sewa }}</td>
                 <td>{{ $rent->tanggal_kembali }}</td>
                 <td>{{ $rent->with_driver ? 'Ya' : 'Tidak' }}</td>

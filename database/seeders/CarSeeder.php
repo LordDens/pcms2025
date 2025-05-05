@@ -3,25 +3,34 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Car;
 
 class CarSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('cars')->insert([
+        // Data mobil yang akan dimasukkan ke database
+        $cars = [
             [
-                'nama_mobil' => 'Toyota Avanza',
+                'nama_mobil' => 'Avanza',
+                'jenis_mobil' => 'Manual',
                 'harga_sewa_per_hari' => 350000,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'nama_mobil' => 'Honda Brio',
-                'harga_sewa_per_hari' => 300000,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nama_mobil' => 'Avanza',
+                'jenis_mobil' => 'Matic',
+                'harga_sewa_per_hari' => 375000,
             ],
-        ]);
+            [
+                'nama_mobil' => 'Innova',
+                'jenis_mobil' => 'Matic',
+                'harga_sewa_per_hari' => 500000,
+            ]
+        ];
+
+        foreach ($cars as $carData) {
+            // Menggunakan model untuk membuat data mobil
+            Car::create($carData);
+        }
     }
 }
