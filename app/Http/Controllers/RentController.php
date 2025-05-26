@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class RentController extends Controller
 {
+    // Tampilkan semua data rental
     public function index()
     {
         $rents = Rent::with(['customer', 'car'])->get();
         return view('rents.index', compact('rents'));
     }
 
+    // Tampilkan form tambah data
     public function create()
     {
         $customers = Customer::all();
@@ -22,71 +24,68 @@ class RentController extends Controller
         return view('rents.create', compact('customers', 'cars'));
     }
 
+    // Simpan data baru
     public function store(Request $request)
     {
         $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'car_id' => 'required|exists:cars,id',
-            'tanggal_sewa' => 'required|date',
-            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
-            'with_driver' => 'nullable|boolean',
+            'customer_id'       => 'required|exists:customers,id',
+            'car_id'            => 'required|exists:cars,id',
+            'kode_transaksi'    => 'required|string|max:50|unique:rents,kode_transaksi',
+            'tanggal_sewa'      => 'required|date',
+            'tanggal_kembali'   => 'required|date|after_or_equal:tanggal_sewa',
+            'lama_sewa'         => 'required|integer|min:1',
+            'sopir'             => 'required|string|in:dengan sopir,tanpa sopir',
+            'biaya'             => 'required|numeric|min:0',
+            'dp'                => 'required|numeric|min:0',
+            'belum_terbayar'    => 'required|numeric|min:0',
+            'with_driver'       => 'required|boolean',
         ]);
 
-        // Hitung lama sewa & harga
-        $car = Car::findOrFail($request->car_id);
-        $lama = (strtotime($request->tanggal_kembali) - strtotime($request->tanggal_sewa)) / 86400;
-        $harga_total = $car->harga_sewa_per_hari * $lama;
+        Rent::create($request->all());
 
-        if ($request->with_driver) {
-            $harga_total += 75000 * $lama; //
-        }
-
-        Rent::create([
-            'customer_id' => $request->customer_id,
-            'car_id' => $request->car_id,
-            'tanggal_sewa' => $request->tanggal_sewa,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'with_driver' => $request->with_driver ?? false,
-            'harga_sewa' => $harga_total,
-        ]);
+        return redirect()->route('rents.index')->with('success', 'Data rental berhasil ditambahkan.');
     }
-        public function edit($id)
-        {
-            $rent = Rent::findOrFail($id);
-            $customers = Customer::all();
-            $cars = Car::all();
-            return view('rents.edit', compact('rent', 'customers', 'cars'));
-        }
-        public function update(Request $request, $id)
+
+    // Tampilkan detail sewa
+    public function show(Rent $rent)
     {
-        $rent = Rent::findOrFail($id);
+        return view('rents.show', compact('rent'));
+    }
 
+    // Tampilkan form edit
+    public function edit(Rent $rent)
+    {
+        $customers = Customer::all();
+        $cars = Car::all();
+        return view('rents.edit', compact('rent', 'customers', 'cars'));
+    }
+
+    // Simpan perubahan data
+    public function update(Request $request, Rent $rent)
+    {
         $request->validate([
-            'customer_id' => 'required',
-            'car_id' => 'required',
-            'tanggal_sewa' => 'required|date',
-            'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
+            'customer_id'       => 'required|exists:customers,id',
+            'car_id'            => 'required|exists:cars,id',
+            'kode_transaksi'    => 'required|string|max:50|unique:rents,kode_transaksi,' . $rent->id,
+            'tanggal_sewa'      => 'required|date',
+            'tanggal_kembali'   => 'required|date|after_or_equal:tanggal_sewa',
+            'lama_sewa'         => 'required|integer|min:1',
+            'sopir'             => 'required|string|in:dengan sopir,tanpa sopir',
+            'biaya'             => 'required|numeric|min:0',
+            'dp'                => 'required|numeric|min:0',
+            'belum_terbayar'    => 'required|numeric|min:0',
+            'with_driver'       => 'required|boolean',
         ]);
 
-        $lama = (strtotime($request->tanggal_kembali) - strtotime($request->tanggal_sewa)) / 86400;
-        $car = Car::findOrFail($request->car_id);
-        $harga_total = $car->harga_sewa_per_hari * $lama;
-        if ($request->with_driver) {
-            $harga_total += 75000 * $lama;
-        }
+        $rent->update($request->all());
 
-        $rent->update([
-            'customer_id' => $request->customer_id,
-            'car_id' => $request->car_id,
-            'tanggal_sewa' => $request->tanggal_sewa,
-            'tanggal_kembali' => $request->tanggal_kembali,
-            'with_driver' => $request->has('with_driver'),
-            'harga_sewa' => $harga_total,
-            'driver' => $request->with_driver ? 'YORDAN' : 'TANPA SOPIR',
-            'total_pendapatan' => $harga_total,
-            'belum_terbayar' => $harga_total,
-        ]);
+        return redirect()->route('rents.index')->with('success', 'Data rental berhasil diperbarui.');
+    }
 
-        return redirect()->route('rents.index')->with('success', 'Data sewa berhasil ditambahkan!');
+    // Hapus data sewa
+    public function destroy(Rent $rent)
+    {
+        $rent->delete();
+        return redirect()->route('rents.index')->with('success', 'Data rental berhasil dihapus.');
     }
 }

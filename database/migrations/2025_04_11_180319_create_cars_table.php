@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_mobil')->unique();
             $table->string('nama_mobil');
+            $table->string('jenis_mobil');
             $table->decimal('harga_sewa_per_hari', 10, 2);
             $table->timestamps();
         });
