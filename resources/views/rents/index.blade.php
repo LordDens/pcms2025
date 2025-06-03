@@ -20,6 +20,7 @@
                 <th>Tanggal Kembali</th>
                 <th>Sopir</th>
                 <th>Harga Sewa</th>
+                <th>Aksi</th> {{-- Tambahkan kolom aksi --}}
             </tr>
         </thead>
         <tbody>
@@ -31,7 +32,15 @@
                 <td>{{ $rent->tanggal_sewa }}</td>
                 <td>{{ $rent->tanggal_kembali }}</td>
                 <td>{{ $rent->with_driver ? 'Ya' : 'Tidak' }}</td>
-                <td>Rp {{ number_format($rent->harga_sewa, 0, ',', '.') }}</td>
+                <td>Rp {{ number_format($rent->harga_sewa ?? 0, 0, ',', '.') }}</td>
+                <td>
+                    <a href="{{ route('rents.edit', $rent->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('rents.destroy', $rent->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

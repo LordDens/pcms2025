@@ -8,15 +8,15 @@ class Rent extends Model
     protected $fillable = [
         'customer_id',
         'car_id',
+        'kode_transaksi',
         'tanggal_sewa',
         'tanggal_kembali',
-        'harga_sewa',
-        'with_driver',
-        'driver',
-        'diskon',
+        'lama_sewa',
+        'sopir',
+        'biaya',
         'dp',
-        'total_pendapatan',
         'belum_terbayar',
+        'with_driver',
     ];
 
     public function customer()
