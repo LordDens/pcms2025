@@ -12,5 +12,12 @@
             <a href="{{ url('/pesan') }}" class="btn btn-primary">  Buat Pesanan Baru </a>
 
         </div>
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+            {{ session('error') }}
+             </div>
+        @endif
+
     </div>
 @endsection

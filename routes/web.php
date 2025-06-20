@@ -16,7 +16,6 @@ use App\Http\Controllers\PublicOrderController;
 
 Route::get('/pesan', [PublicOrderController::class, 'create']);
 Route::post('/pesan', [PublicOrderController::class, 'store'])->name('pesan.store');
-
-
+Route::get('/pesanan/{rent_id}', [PublicOrderController::class, 'show'])->name('pesanan.show');
 Route::resource('rents', RentController::class);
 
