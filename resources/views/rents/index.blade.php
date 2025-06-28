@@ -20,7 +20,8 @@
                 <th>Tanggal Kembali</th>
                 <th>Sopir</th>
                 <th>Harga Sewa</th>
-                <th>Aksi</th> {{-- Tambahkan kolom aksi --}}
+                <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -34,12 +35,29 @@
                 <td>{{ $rent->with_driver ? 'Ya' : 'Tidak' }}</td>
                 <td>Rp {{ number_format($rent->harga_sewa ?? 0, 0, ',', '.') }}</td>
                 <td>
-                    <a href="{{ route('rents.edit', $rent->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('rents.destroy', $rent->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
-                    </form>
+                    @if ($rent->is_confirmed)
+                        <span class="badge bg-success text-white">Terkonfirmasi</span>
+                    @else
+                        <span class="badge bg-warning text-dark">Menunggu</span>
+                    @endif
+                </td>
+                <td>
+                    @if (!$rent->is_confirmed)
+                        <form action="{{ route('admin.rents.confirm', $rent->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Konfirmasi pesanan ini?')">✔ Konfirmasi</button>
+                        </form>
+
+                        <a href="{{ route('rents.edit', $rent->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('rents.destroy', $rent->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                        </form>
+                    @else
+                        <span class="text-muted">✔ Terkonfirmasi</span>
+                    @endif
                 </td>
             </tr>
             @endforeach

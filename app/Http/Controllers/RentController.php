@@ -12,7 +12,7 @@ class RentController extends Controller
     // Tampilkan semua data rental
     public function index()
     {
-        $rents = Rent::with(['customer', 'car'])->get();
+        $rents = Rent::with(['customer', 'car'])->latest()->get();
         return view('rents.index', compact('rents'));
     }
 
@@ -88,4 +88,36 @@ class RentController extends Controller
         $rent->delete();
         return redirect()->route('rents.index')->with('success', 'Data rental berhasil dihapus.');
     }
+
+    // Tampilkan daftar sewa khusus admin (dengan status konfirmasi)
+    public function adminIndex()
+    {
+        $rents = Rent::with(['customer', 'car'])->latest()->get();
+        return view('admin.rents.index', compact('rents'));
+    }
+
+    // Update status konfirmasi sewa
+    public function updateStatus(Request $request, Rent $rent)
+    {
+        $rent->is_confirmed = true;
+        $rent->save();
+
+        return redirect()->back()->with('success', 'Pesanan berhasil dikonfirmasi.');
+    }
+
+    public function myRentals()
+    {
+    // Hanya user yang login
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+    $userId = Auth::id();
+    
+    // Ambil semua pesanan yang dibuat oleh user login
+    $rents = Rent::where('user_id', $userId)->with('car')->latest()->get();
+
+    return view('rents.my', compact('rents'));
+    }
+
 }

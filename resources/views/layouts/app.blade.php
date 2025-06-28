@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>@yield('title', 'Juragan Rental')</title>
+    <!-- Tambahkan ini di bagian <head> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- Google Fonts --}}

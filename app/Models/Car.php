@@ -6,12 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Car extends Model
 {
-    protected $fillable = ['nama_mobil', 'harga_sewa_per_hari', 'jenis_mobil', 'kode_mobil'];
+    protected $fillable = [
+    'nama_mobil',
+    'harga_sewa_per_hari',
+    'jenis_mobil',
+    'kode_mobil',
+    'transmisi',
+    'ready',
+    'kategori_id',
+    ];
+
+    protected $casts = [
+    'ready' => 'boolean',
+    ];
 
     public function rents()
     {
         return $this->hasMany(Rent::class);
     }
+
+    public function kategori()
+    {
+    return $this->belongsTo(Kategori::class);
+    }
+
 
     protected static function booted()
     {

@@ -2,21 +2,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rent extends Model
 {
     protected $fillable = [
-        'customer_id',
-        'car_id',
-        'kode_transaksi',
-        'tanggal_sewa',
-        'tanggal_kembali',
-        'lama_sewa',
-        'sopir',
-        'biaya',
-        'dp',
-        'belum_terbayar',
-        'with_driver',
+    'customer_id', 'car_id', 'tanggal_sewa', 'tanggal_kembali',
+    'harga_sewa', 'with_driver', 'driver', 'diskon',
+    'dp', 'total_pendapatan', 'belum_terbayar', 'is_confirmed',
     ];
 
     public function customer()

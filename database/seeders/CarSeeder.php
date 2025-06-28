@@ -12,12 +12,14 @@ class CarSeeder extends Seeder
         // Data mobil yang akan dimasukkan ke database
         $cars = [
             [
-                'nama_mobil' => 'Avanza',
-                'jenis_mobil' => 'Manual',
+                'nama_mobil' => 'Avanza 1.5 G 2021',
+                'harga_sewa' => 350000,
+                'jenis_mobil' => 'MVP',
+                'transmisi' => Matic,
                 'harga_sewa_per_hari' => 350000,
             ],
             [
-                'nama_mobil' => 'Avanza',
+                'nama_mobil' => 'Avanza 1.5',
                 'jenis_mobil' => 'Matic',
                 'harga_sewa_per_hari' => 375000,
             ],
