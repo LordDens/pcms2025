@@ -6,6 +6,7 @@ use App\Models\Rent;
 use App\Models\Customer;
 use App\Models\Car;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class RentController extends Controller
 {
@@ -45,6 +46,51 @@ class RentController extends Controller
 
         return redirect()->route('rents.index')->with('success', 'Data rental berhasil ditambahkan.');
     }
+
+        public function storeManual(Request $request)
+        {
+            $validated = $request->validate([
+                'nama_pelanggan' => 'required|string|max:255',
+                'nik' => [
+                    'required',
+                    'digits:16',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $existing = Rent::where('nik', $value)
+                            ->where('nama_pelanggan', '!=', $request->nama_pelanggan)
+                            ->first();
+                        if ($existing) {
+                            $fail('NIK sudah digunakan untuk nama pelanggan yang berbeda.');
+                        }
+                    }
+                ],
+                'car_id' => 'required|exists:cars,id',
+                'tanggal_sewa' => 'required|date',
+                'tanggal_kembali' => 'required|date|after_or_equal:tanggal_sewa',
+                'with_driver' => 'nullable|boolean',
+                'harga_total' => 'required|numeric',
+            ]);
+
+            Rent::create([
+                'customer_id' => null,
+                'car_id' => $validated['car_id'],
+                'nama_pelanggan' => $validated['nama_pelanggan'],
+                'nik' => $validated['nik'],
+                'tanggal_sewa' => $validated['tanggal_sewa'],
+                'tanggal_kembali' => $validated['tanggal_kembali'],
+                'with_driver' => $validated['with_driver'] ?? false,
+                'total_pendapatan' => $validated['harga_total'],
+                'harga_sewa' => $validated['harga_total'],
+                'is_confirmed' => true,
+            ]);
+
+            return redirect()->route('rents.index')->with('success', 'Sewa berhasil ditambahkan secara manual.');
+        }
+
+        public function createManual()
+            {
+                $cars = Car::all();
+                return view('admin.rents.create_manual', compact('cars'));
+            }
 
     // Tampilkan detail sewa
     public function show(Rent $rent)

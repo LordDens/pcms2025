@@ -28,7 +28,7 @@
                         @endif
 
                         @if(Auth::check() && Auth::user()->role === 'user')
-                            <x-nav-link :href="route('orders.user')" :active="request()->routeIs('orders.user')">
+                            <x-nav-link :href="route('rents.my')" :active="request()->routeIs('rents.my')">
                                 {{ __('Rental Saya') }}
                             </x-nav-link>
                         @endif

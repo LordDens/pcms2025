@@ -32,13 +32,16 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/car/create', [CarController::class, 'create'])->name('car.create');
     Route::post('/car', [CarController::class, 'store'])->name('car.store');
-    Route::resource('rents', RentController::class);
+    Route::resource('rents', RentController::class)->except(['create']);
     Route::get('/car/{car}/edit', [CarController::class, 'edit'])->name('car.edit');
     Route::put('/car/{car}', [CarController::class, 'update'])->name('car.update');
     Route::patch('/admin/sewa/{rent}/status', [RentController::class, 'updateStatus'])->name('admin.rents.updateStatus');
     Route::get('/admin/rents', [RentController::class, 'index'])->name('admin.rents.index');
     Route::patch('/rents/{rent}/confirm', [RentController::class, 'updateStatus'])->name('admin.rents.confirm');
     Route::get('/admin/laporan', [App\Http\Controllers\ReportController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/admin/rents/create-manual', [RentController::class, 'createManual'])->name('rents.createManual');
+    Route::post('/admin/rents/store-manual', [RentController::class, 'storeManual'])->name('rents.storeManual');
+
 });
 
 // Untuk umum

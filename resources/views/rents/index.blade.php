@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Daftar Sewa Mobil</h1>
 
-    <a href="{{ route('rents.create') }}" class="btn btn-success mb-3">+ Tambah Sewa</a>
+    <a href="{{ route('rents.createManual') }}" class="btn btn-success mb-3">+ Tambah Sewa</a>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
